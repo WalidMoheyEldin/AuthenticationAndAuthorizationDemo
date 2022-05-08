@@ -1,0 +1,52 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+
+@{
+    ViewData["Title"] = "Details";
+    List<string> policies = ViewData["Policies"] as List<string>;
+    List<Microsoft.AspNetCore.Identity.IdentityUser> users = ViewData["Users"] as List<Microsoft.AspNetCore.Identity.IdentityUser>;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Role</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Policies (@policies.Count)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (string policy in policies)
+                {
+                    <li>@policy</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Users (@users.Count)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var user in users)
+                {
+                    <li>@user.UserName</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

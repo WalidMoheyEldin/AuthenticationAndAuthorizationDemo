@@ -1,0 +1,69 @@
+﻿@using AuthDemo.WebShared.Helpers
+@model AuthDemo.Web.ViewModels.EditRoleViewModel
+@inject AuthDemo.WebShared.Data.ApplicationDbContext db
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Role</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">CRUD Policies</label>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Entity</th>
+                                <th>Create</th>
+                                <th>Delete</th>
+                                <th>Read</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (string dbset in db.GetAllDbSets())
+                            {
+                                <tr>
+                                    <td>@dbset</td>
+                                    @foreach (string policy in db.GetCRUDPoliciesByDbSet(dbset))
+                                    {
+                                        <td>
+                                            @if (Model.Policies.Contains(policy))
+                                            {
+                                                <input type="checkbox" name="Policies" value="@policy" id="policy-@policy" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="Policies" value="@policy" id="policy-@policy" />
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
